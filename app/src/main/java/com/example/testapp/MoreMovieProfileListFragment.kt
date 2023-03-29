@@ -1,26 +1,41 @@
 package com.example.testapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.ImageButton
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.jsoup.Jsoup
 
-class MoreMovieProfileListActivity : AppCompatActivity() {
+class MoreMovieProfileListFragment : Fragment() { //childFragment임...
 
     private lateinit var webView: WebView
     private lateinit var recyclerView: RecyclerView
     private lateinit var movieList: MutableList<MovieProfiles>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_more_movie_list)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-        webView = findViewById(R.id.wv_profile_info)
-        recyclerView = findViewById(R.id.rv_more_movie_profile)
+        val view = inflater.inflate(R.layout.activity_more_movie_list, container, false)
+
+        webView = view.findViewById(R.id.wv_profile_info)
+        recyclerView = view.findViewById(R.id.rv_more_movie_profile)
+
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         movieList = mutableListOf()
 
@@ -35,9 +50,8 @@ class MoreMovieProfileListActivity : AppCompatActivity() {
             }
         }
 
-        val searchString = intent.getStringExtra("searchString")
+        val searchString = arguments?.getString("searchString")
         val url = "https://m.kinolights.com/search/movies?keyword=$searchString"
-
         // WebView에서 URL 로딩
         webView.loadUrl(url)
     }
@@ -50,8 +64,13 @@ class MoreMovieProfileListActivity : AppCompatActivity() {
             val title = doc.select("tit")
 
             // 영화 정보 추출
-            //val moviePoster = doc.select(".image-box").eachAttr("data-src")
-
+            val posterImageUrl = doc.select("div.image-box img").map {
+                if (it.hasAttr("data-src") && !it.attr("data-src").isBlank()) {
+                    it.attr("data-src")
+                } else {
+                    it.attr("src")
+                }
+            }
             val movieName = doc.select(".name").eachText()
             val movieGenreAndYear = doc.select(".metadata").eachText()
             val toInfoUrl = doc.select(".movie-list-item-wrap > a").eachAttr("href")
@@ -60,7 +79,7 @@ class MoreMovieProfileListActivity : AppCompatActivity() {
             for (i in 0 until movieName.size) {
                 movieList.add(
                     MovieProfiles(
-                        //moviePoster[i].toInt(),
+                        posterImageUrl[i],
                         movieName[i],
                         movieGenreAndYear[i],
                         toInfoUrl[i]
@@ -68,11 +87,9 @@ class MoreMovieProfileListActivity : AppCompatActivity() {
                 )
             }
 
-
-
             // RecyclerView 설정
             val adapter = MoreMovieProfileListActivityAdapter(ArrayList(movieList))
-            recyclerView.layoutManager = LinearLayoutManager(this@MoreMovieProfileListActivity)
+            recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.adapter = adapter
         }
     }
