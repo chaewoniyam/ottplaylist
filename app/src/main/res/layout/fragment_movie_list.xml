@@ -55,7 +55,7 @@
         android:src="@drawable/baseline_keyboard_arrow_right_24" />
 
     <WebView
-        android:id="@+id/wv_profile_info"
+        android:id="@+id/wv_movie_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -66,11 +66,12 @@
     </WebView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/umm"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_movie_profile"
+            android:id="@+id/rv_movie_list"
             android:layout_width="413dp"
             android:layout_height="577dp"
             android:layout_marginTop="340dp"

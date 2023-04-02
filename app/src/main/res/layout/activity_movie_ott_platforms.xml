@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_poster"
+            android:id="@+id/iv_ott_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
@@ -31,40 +31,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
+
         <TextView
-            android:id="@+id/tv_movie_name"
+            android:id="@+id/tv_ott_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:text="영화제목"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_poster"
-            app:layout_constraintTop_toTopOf="@+id/iv_poster" />
+            app:layout_constraintStart_toEndOf="@+id/iv_ott_img"
+            app:layout_constraintTop_toTopOf="@+id/iv_ott_img" />
 
         <TextView
-            android:id="@+id/tv_movie_genre_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="장르와 년도"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_poster"
-            app:layout_constraintStart_toEndOf="@+id/iv_poster"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_name" />
-
-        <TextView
-            android:id="@+id/tv_to_info_url"
+            android:id="@+id/tv_ott_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:text="상세페이지로 가는 url,,,"
+            android:text="플랫폼 사이트로.. "
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_poster"
+            app:layout_constraintStart_toEndOf="@+id/iv_ott_img"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

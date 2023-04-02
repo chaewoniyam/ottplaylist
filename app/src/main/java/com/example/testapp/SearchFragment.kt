@@ -11,7 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import com.example.testapp.databinding.FragmentSearchBinding
 
-class Search : Fragment() {
+class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private var movieItems = ""

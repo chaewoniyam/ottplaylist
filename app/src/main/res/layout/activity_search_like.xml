@@ -5,7 +5,7 @@
     android:id="@+id/search_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchFragment">
+    tools:context=".addPlaylistMovieSearchAndLike">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -42,6 +42,13 @@
 
     <FrameLayout
         android:id="@+id/child_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_like_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

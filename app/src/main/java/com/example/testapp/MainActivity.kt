@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import com.example.testapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.ktx.auth
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
 
                 R.id.home -> replaceFragment(Home())
-                R.id.search -> replaceFragment(Search())
+                R.id.search -> replaceFragment(SearchFragment())
                 R.id.ranking -> replaceFragment(Ranking())
                 R.id.my -> replaceFragment(My())
 

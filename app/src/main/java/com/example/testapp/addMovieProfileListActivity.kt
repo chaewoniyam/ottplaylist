@@ -1,43 +1,27 @@
 package com.example.testapp
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.jsoup.Jsoup
 
-class MovieProfileListFragment : Fragment() {
+class addMovieProfileListActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private lateinit var recyclerView: RecyclerView
     private lateinit var movieList: MutableList<MovieProfiles>
     private var isHtmlReceived = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_movie_list)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        val view = inflater.inflate(R.layout.fragment_movie_list, container, false)
-
-        webView = view.findViewById<WebView>(R.id.wv_movie_list)
-        recyclerView = view.findViewById<RecyclerView>(R.id.rv_movie_list)
-
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        webView = findViewById(R.id.wv_add_movie_list)
+        recyclerView = findViewById(R.id.rv_add_movie_list)
 
         movieList = mutableListOf()
 
@@ -45,28 +29,20 @@ class MovieProfileListFragment : Fragment() {
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(MyJavascriptInterface(), "Android")
 
-
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-
                 if (!isHtmlReceived) {
                     view!!.loadUrl("javascript:window.Android.getHtml(document.getElementsByTagName('body')[0].innerHTML);")
                 }
             }
         }
 
-        val searchString = arguments?.getString("searchString")
+        val searchString = intent.getStringExtra("searchString")
         val url = "https://m.kinolights.com/search/movies?keyword=$searchString"
 
         // WebView에서 URL 로딩
         webView.loadUrl(url)
-
-        view.findViewById<ImageButton>(R.id.ib_more).setOnClickListener {
-            val intent = Intent(activity, MoreMovieProfileListActivity::class.java)
-            intent.putExtra("searchString", searchString)
-            startActivity(intent)
-        }
     }
 
     inner class MyJavascriptInterface {
@@ -76,6 +52,7 @@ class MovieProfileListFragment : Fragment() {
             val doc = Jsoup.parse(html)
 
             // 영화 정보 추출
+
             val movieName = doc.select(".name").eachText()
             val movieGenreAndYear = doc.select(".metadata").eachText()
             val toInfoUrl = doc.select(".movie-list-item-wrap > a").eachAttr("href")
@@ -87,26 +64,24 @@ class MovieProfileListFragment : Fragment() {
                 }
             }
 
-
-
             // 영화 정보 리스트에 추가
-            for (i in 0 until 3) {
+            for (i in 0 until movieName.size) {
                 movieList.add(
                     MovieProfiles(
                         posterImageUrl[i],
                         movieName[i],
                         movieGenreAndYear[i],
-                        toInfoUrl[i],
+                        toInfoUrl[i]
                     )
                 )
             }
 
+
+
             // RecyclerView 설정
-            val adapter = MovieProfileAdapter(ArrayList(movieList))
-            recyclerView.layoutManager = LinearLayoutManager(activity)
+            val adapter = addMovieProfileListActivityAdapter(ArrayList(movieList))
+            recyclerView.layoutManager = LinearLayoutManager(this@addMovieProfileListActivity)
             recyclerView.adapter = adapter
         }
     }
 }
-
-
