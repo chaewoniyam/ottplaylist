@@ -20,9 +20,10 @@
 
     <WebView
         android:id="@+id/wv_add_movie_list"
-        android:layout_width="416dp"
-        android:layout_height="146dp"
-        android:layout_marginTop="656dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList<MovieProfiles>) : RecyclerView.Adapter<addMovieProfileListActivityAdapter.CustomViewHolder>() {
 
+    private val checkedItems = arrayListOf<MovieProfiles>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_add_movie_list_skeleton, parent, false)
@@ -66,7 +68,7 @@ class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList
         val movieName = itemView.findViewById<TextView>(R.id.tv_movie_name) // 영화 제목
         val movieGenreAndYear = itemView.findViewById<TextView>(R.id.tv_movie_genre_year) // 영화 장르와 년도
         val toInfoUrl = itemView.findViewById<TextView>(R.id.tv_to_info_url) // 영화 정보
-        val addButton: ImageButton = itemView.findViewById<ImageButton>(R.id.bt_add_playlist) // 추가 버튼
+        val addButton: CheckBox = itemView.findViewById<CheckBox>(R.id.bt_add_playlist) // 추가 버튼
 
     }
 }

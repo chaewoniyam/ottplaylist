@@ -68,18 +68,15 @@
             app:layout_constraintStart_toEndOf="@+id/iv_poster"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <CheckBox
             android:id="@+id/bt_add_playlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="19dp"
+            android:text="CheckBox"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_add_24"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:contentDescription="플레이리스트에 추가하기 버튼"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
