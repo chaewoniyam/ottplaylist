@@ -1,12 +1,21 @@
 package com.example.testapp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapp.InfoActivity.Companion.TAG
+import com.google.firebase.firestore.FirebaseFirestore
 import org.jsoup.Jsoup
 
 class addMovieProfileListActivity : AppCompatActivity() {
@@ -14,14 +23,22 @@ class addMovieProfileListActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var recyclerView: RecyclerView
     private lateinit var movieList: MutableList<MovieProfiles>
+    private val checkedItems = mutableListOf<MovieProfiles>()
     private var isHtmlReceived = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_movie_list)
 
-        webView = findViewById(R.id.wv_add_movie_list)
+        val movieProfileList = arrayListOf<MovieProfiles>()
+        val adapter = addMovieProfileListActivityAdapter(movieProfileList)
+
+        // RecyclerView 설정
         recyclerView = findViewById(R.id.rv_add_movie_list)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        webView = findViewById(R.id.wv_add_movie_list)
 
         movieList = mutableListOf()
 
@@ -43,7 +60,35 @@ class addMovieProfileListActivity : AppCompatActivity() {
 
         // WebView에서 URL 로딩
         webView.loadUrl(url)
+
+        val searchButton = findViewById<Button>(R.id.seach_click)
+
+        searchButton.setOnClickListener {
+            val searchEditText = findViewById<EditText>(R.id.input)
+            // 검색어 가져오기
+            val searchString = searchEditText.text.toString()
+
+            // 키보드 내리기
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+
+            // RecyclerView 초기화
+            movieList.clear()
+
+            // WebView에서 URL 로딩
+            val url = "https://m.kinolights.com/search/movies?keyword=$searchString"
+            webView.loadUrl(url)
+        }
+
+        val addImageButton = findViewById<ImageButton>(R.id.confirmButton)
+
+        addImageButton.setOnClickListener {
+            val intent = Intent(this, MakePlaylistRecyclerActivity::class.java)
+            startActivity(intent)
+
+        }
     }
+
 
     inner class MyJavascriptInterface {
         @JavascriptInterface
@@ -79,9 +124,11 @@ class addMovieProfileListActivity : AppCompatActivity() {
 
 
             // RecyclerView 설정
+            // RecyclerView 설정
             val adapter = addMovieProfileListActivityAdapter(ArrayList(movieList))
             recyclerView.layoutManager = LinearLayoutManager(this@addMovieProfileListActivity)
             recyclerView.adapter = adapter
+
         }
     }
 }

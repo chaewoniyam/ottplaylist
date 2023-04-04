@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.testapp.InfoActivity.Companion.TAG
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList<MovieProfiles>) : RecyclerView.Adapter<addMovieProfileListActivityAdapter.CustomViewHolder>() {
@@ -45,20 +46,29 @@ class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList
 
             // 해당 버튼의 순서와 함께 console 출력
             println("영화 추가 버튼이 눌린 위치: $curPos")
-            // Firestore에 데이터 저장
+
+            // 현재 사용자의 uid 가져오기
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+
             val data = hashMapOf(
                 "posterImageUrl" to profile.posterImageUrl,
                 "movieName" to profile.movieName,
                 "movieGenreAndYear" to profile.movieGenreAndYear,
                 "toInfoUrl" to profile.toInfoUrl
             )
-            firestore.collection("movies").add(data)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+
+            if (userId != null) {
+       //         firestore.collection("users")
+       //             .document(userId)
+                firestore.collection("movies")
+                    .add(data)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
         }
     }
 
