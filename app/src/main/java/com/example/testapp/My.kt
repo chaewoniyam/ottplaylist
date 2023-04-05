@@ -20,7 +20,7 @@ class My : Fragment() {
 
         val goToMakePlaylist = view.findViewById<ImageButton>(R.id.go_to_make_playlist)
         goToMakePlaylist.setOnClickListener {
-            val intent = Intent(activity, MakePlaylistActivity::class.java)
+            val intent = Intent(activity, PostingActivity::class.java)
             startActivity(intent)
         }
         return view

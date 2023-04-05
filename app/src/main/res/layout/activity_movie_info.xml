@@ -16,6 +16,7 @@
             android:layout_width="413dp"
             android:layout_height="264dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_launcher_foreground" />
@@ -93,6 +94,26 @@
             android:layout_marginTop="700dp"
             tools:layout_editor_absoluteX="0dp">
         </androidx.recyclerview.widget.RecyclerView>
+
+        <ImageView
+            android:id="@+id/iv_emptyHeart"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="42dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_backgroud"
+            app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+        <ImageView
+            android:id="@+id/iv_fullHeart"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_backgroud"
+            app:srcCompat="@drawable/baseline_favorite_24" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

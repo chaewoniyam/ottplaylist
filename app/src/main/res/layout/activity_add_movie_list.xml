@@ -40,7 +40,9 @@
         android:text="확인"
         android:src="@drawable/baseline_archive_24"
         android:padding="10dp"
-        android:contentDescription="검색" />
+        android:contentDescription="검색"
+        android:minHeight="48dp"
+        android:minWidth="48dp"/>
 
     <Button
         android:id="@+id/seach_click"

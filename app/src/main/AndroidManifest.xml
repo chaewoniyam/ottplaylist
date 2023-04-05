@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Testapp"
         tools:targetApi="31">
         <activity
+            android:name=".PostingActivity"
+            android:exported="false" />
+        <activity
             android:name=".MakePlaylistRecyclerActivity"
             android:exported="false" />
         <activity
@@ -24,9 +27,6 @@
             android:exported="false" />
         <activity
             android:name=".addPlaylistMovieSearchAndLike"
-            android:exported="false" />
-        <activity
-            android:name=".MakePlaylistActivity"
             android:exported="false" />
         <activity
             android:name=".MoreMovieProfileListActivity"
