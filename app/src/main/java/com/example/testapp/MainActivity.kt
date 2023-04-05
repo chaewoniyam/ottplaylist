@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.testapp.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        FirebaseApp.initializeApp(this)
+
         auth = Firebase.auth
 
         // 로그인 성공한 회원은 메인 액티비티로
@@ -56,16 +61,16 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-        replaceFragment(Home()) //앱을 실행하면 가장 먼저 갖게되는 것은 홈
+        replaceFragment(HomeFragment()) //앱을 실행하면 가장 먼저 갖게되는 것은 홈
 
 // 클릭하면 이동해야 하니까 seleclistener 호출
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
 
-                R.id.home -> replaceFragment(Home())
+                R.id.home -> replaceFragment(HomeFragment())
                 R.id.search -> replaceFragment(SearchFragment())
-                R.id.ranking -> replaceFragment(Ranking())
-                R.id.my -> replaceFragment(My())
+                R.id.ranking -> replaceFragment(RankingFragment())
+                R.id.my -> replaceFragment(MyFragment())
 
                 else -> {
 
