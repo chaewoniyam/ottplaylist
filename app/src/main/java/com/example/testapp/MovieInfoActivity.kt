@@ -64,6 +64,8 @@ class MovieInfoActivity : AppCompatActivity() {
     }
 
 
+
+
     inner class MyJavascriptInterface {
         @JavascriptInterface
         fun getHtml(html: String) {
