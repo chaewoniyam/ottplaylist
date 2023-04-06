@@ -1,20 +1,18 @@
 package com.example.testapp
 
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.testapp.InfoActivity.Companion.TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList<MovieProfiles>) : RecyclerView.Adapter<addMovieProfileListActivityAdapter.CustomViewHolder>() {
 
@@ -57,18 +55,33 @@ class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList
                 "toInfoUrl" to profile.toInfoUrl
             )
 
-            if (userId != null) {
-       //         firestore.collection("users")
-       //             .document(userId)
-                firestore.collection("movies")
-                    .add(data)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+            val postCollection = firestore.collection("post")
+
+
+            postCollection.orderBy("date", Query.Direction.DESCENDING).limit(1)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val latestPostId = documents.documents[0].id
+                        // latestPostId 변수에 최근에 생성된 문서의 ID가 저장됩니다.
+                        if (userId != null) {
+                            //         firestore.collection("users")
+                            //             .document(userId)
+                            firestore.collection("post").document(latestPostId).collection("movies")
+                                .add(data)
+                                .addOnSuccessListener { documentReference ->
+                                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w(TAG, "Error adding document", e)
+                                }
+                        }
                     }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting documents: ", exception)
+                }
         }
     }
 

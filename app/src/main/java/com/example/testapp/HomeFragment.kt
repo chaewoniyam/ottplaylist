@@ -13,6 +13,7 @@ import androidx.wear.tiles.LayoutElementBuilders.Image
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.NonDisposableHandle.parent
 
@@ -38,7 +39,7 @@ class HomeFragment : Fragment() {
 
         init {
 
-            firestore?.collection("post")?.orderBy("date")
+            firestore?.collection("post")?.orderBy("date", Query.Direction.DESCENDING )
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreExec ->
                     contentDTOs.clear()
                     contentUidList.clear()
@@ -112,7 +113,7 @@ class HomeFragment : Fragment() {
             val iv_post_image: ImageView = view.findViewById(R.id.iv_post_image)
             val tv_explain_post: TextView = view.findViewById(R.id.tv_explain_post)
             val tv_favoritecounter_post: TextView = view.findViewById(R.id.tv_favoritecounter_post)
-            val iv_profile_image: ImageView = view.findViewById(R.id.iv_profile_image)
+            val iv_profile_image: ImageView = view.findViewById(R.id.detailviewitem_profile_image)
             val iv_favorite_post: ImageView = view.findViewById(R.id.iv_favorite_post)
         }
     }

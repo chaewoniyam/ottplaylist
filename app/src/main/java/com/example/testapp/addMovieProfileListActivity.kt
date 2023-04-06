@@ -83,7 +83,7 @@ class addMovieProfileListActivity : AppCompatActivity() {
         val addImageButton = findViewById<ImageButton>(R.id.confirmButton)
 
         addImageButton.setOnClickListener {
-            val intent = Intent(this, MakePlaylistRecyclerActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
 
         }

@@ -45,9 +45,7 @@ class SearchFragment : Fragment() {
                 .replace(R.id.child_fragment_container, childFragment)
                 .addToBackStack(null)
                 .commit()
-
         }
-
 
         return view
     }
