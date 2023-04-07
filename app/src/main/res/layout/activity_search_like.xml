@@ -34,11 +34,13 @@
 
     <Button
         android:id="@+id/seach_click"
+        android:text="검색"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="350dp"
         android:layout_marginTop="70dp"
-        android:contentDescription="검색" />
+        android:contentDescription="검색"
+        android:padding="10dp"/>
 
     <FrameLayout
         android:id="@+id/child_fragment_container"

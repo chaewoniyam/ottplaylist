@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class makeplalistrecycler(val MovieProfileList: ArrayList<MovieProfiles>) : RecyclerView.Adapter<makeplalistrecycler.CustomViewHolder>() {
+class makeplalistrecycleradapter(val MovieProfileList: ArrayList<MovieProfiles>) : RecyclerView.Adapter<makeplalistrecycleradapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -47,6 +46,11 @@ class makeplalistrecycler(val MovieProfileList: ArrayList<MovieProfiles>) : Recy
         val movieGenreAndYear = itemView.findViewById<TextView>(R.id.tv_movie_genre_year) // 영화 장르와 년도
         val toInfoUrl = itemView.findViewById<TextView>(R.id.tv_to_info_url) // 영화 정보
 
+    }
+
+    fun addMovieProfiles(movieProfileList: List<MovieProfiles>) {
+        MovieProfileList.addAll(movieProfileList)
+        notifyDataSetChanged()
     }
 
 }

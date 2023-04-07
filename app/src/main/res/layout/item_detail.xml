@@ -29,11 +29,11 @@
             android:id="@+id/tv_explain_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-92dp"
             android:layout_marginTop="13dp"
             android:layout_weight="1"
             android:text="TextView"
             android:textSize="18sp"
+            android:layout_marginLeft="-100dp"
             android:textStyle="bold" />
 
 

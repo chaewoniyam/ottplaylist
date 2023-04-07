@@ -29,7 +29,7 @@ class SearchFragment : Fragment() {
 
         searchButton.setOnClickListener {
             val searchString = searchEditText.text.toString()
-            println("Search string is $searchString") // 변수에 사용자가 입력한 값 들어 왔는지 확인
+            println("Search string is $searchString") // 변수에 사용f자가 입력한 값 들어 왔는지 확인
 
             // 키보드 내리기
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

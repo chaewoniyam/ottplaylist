@@ -1,5 +1,6 @@
 package com.example.testapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -89,6 +90,14 @@ class HomeFragment : Fragment() {
             }else{
                 viewholder.iv_favorite_post.setImageResource(R.drawable.baseline_favorite_border_24)
             }
+            viewholder.iv_comment_post.setOnClickListener{ v ->
+                val intent = Intent(v.context,CommentActivity::class.java)
+                intent.putExtra("contentUid",contentUidList[position])
+                startActivity(intent)
+
+
+            }
+
         }
 
         fun favoriteEvent(position: Int){
@@ -112,9 +121,12 @@ class HomeFragment : Fragment() {
             val tv_profile_nickname: TextView = view.findViewById(R.id.tv_profile_nickname)
             val iv_post_image: ImageView = view.findViewById(R.id.iv_post_image)
             val tv_explain_post: TextView = view.findViewById(R.id.tv_explain_post)
+            val iv_comment_post: ImageView = view.findViewById(R.id.iv_comment_post)
             val tv_favoritecounter_post: TextView = view.findViewById(R.id.tv_favoritecounter_post)
             val iv_profile_image: ImageView = view.findViewById(R.id.detailviewitem_profile_image)
             val iv_favorite_post: ImageView = view.findViewById(R.id.iv_favorite_post)
+
+
         }
     }
 }
