@@ -89,35 +89,11 @@
         android:text="팔로우하기"
         />
 
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="250dp"
-        android:padding="5dp"
-        android:src="@drawable/coding"
-        android:scaleType="fitXY"/>
-
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="250dp"
-        android:padding="5dp"
-        android:src="@drawable/disny"
-        android:scaleType="fitXY"
-        android:layout_marginStart="130dp"/>
-
-    <ImageView
-        android:id="@+id/image3"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="265dp"
-        android:layout_marginTop="250dp"
-        android:padding="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/flower" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_accont_movie_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 
 </FrameLayout>

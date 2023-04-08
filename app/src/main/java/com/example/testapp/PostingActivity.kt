@@ -86,6 +86,7 @@ class PostingActivity : AppCompatActivity() {
                                 imageUrl = imageUrl
                             )
 
+
                             // Firestore에 ContentDTO 객체 업로드
                             firestore.collection("post")
                                 .document()

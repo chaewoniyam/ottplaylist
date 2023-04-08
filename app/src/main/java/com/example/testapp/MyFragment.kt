@@ -1,57 +1,83 @@
 package com.example.testapp
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-
 
 class MyFragment : Fragment() {
     var fragmentView: View? = null
-    var firestore: FirebaseFirestore? = null
+    lateinit var firestore: FirebaseFirestore
     var uid: String? = null
     var auth: FirebaseAuth? = null
-    var currentUserUid: String? = null
-
-
-    companion object {
-        var PICK_PROFILE_FROM_ALBUM = 10
-    }
+    private lateinit var imageAdapter: ImageAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_my, container, false)
-        // 넘어온 Uid 받아오기
-        uid = arguments?.getString("destinationUid")
-        firestore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-        currentUserUid = auth?.currentUser?.uid
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_my, container, false)
 
         val go_to_make_playlist = view.findViewById<ImageButton>(R.id.go_to_make_playlist)
         go_to_make_playlist.setOnClickListener {
-            val intent = Intent(view.context, PostingActivity::class.java)
+            val intent = Intent(requireContext(), PostingActivity::class.java)
             startActivity(intent)
         }
 
-        val image = view.findViewById<ImageView>(R.id.image1)
-        image.setOnClickListener{
-            val intent = Intent(view.context, MakePlaylistRecyclerActivity::class.java)
-            startActivity(intent)
-        }
+        val recyclerView: RecyclerView = view.findViewById(R.id.rv_accont_movie_list)
+        imageAdapter = ImageAdapter()
+        recyclerView.adapter = imageAdapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
+        uid = FirebaseAuth.getInstance().currentUser?.uid
+        firestore = FirebaseFirestore.getInstance()
+
+        firestore.collection("post")
+            .whereEqualTo("uid", uid)
+            .get()
+            .addOnSuccessListener { documents ->
+                val contents = documents.toObjects(ContentDTO::class.java)
+                imageAdapter.setData(contents)
+            }
 
         return view
+    }
+
+    class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+        private val contents = mutableListOf<ContentDTO>()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_image, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val content = contents[position]
+            Glide.with(holder.itemView.context)
+                .load(content.imageUrl)
+                .into(holder.imageView)
+        }
+
+        override fun getItemCount(): Int {
+            return contents.size
+        }
+
+        fun setData(newContents: List<ContentDTO>) {
+            contents.clear()
+            contents.addAll(newContents)
+            notifyDataSetChanged()
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        }
     }
 }
