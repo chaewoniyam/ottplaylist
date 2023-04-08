@@ -64,6 +64,7 @@ class addMovieProfileListActivityAdapter(private val movieProfileList: ArrayList
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
                         val latestPostId = documents.documents[0].id
+                        println(latestPostId+"출력되시오!!!!!!!!!!!!!!!!!!!!")
                         // latestPostId 변수에 최근에 생성된 문서의 ID가 저장됩니다.
                         if (userId != null) {
                             //         firestore.collection("users")
