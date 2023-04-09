@@ -35,34 +35,28 @@ class MyFragment : Fragment() {
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_accont_movie_list)
-        imageAdapter = ImageAdapter()
+        val imageAdapter = ImageAdapter()
         recyclerView.adapter = imageAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        uid = FirebaseAuth.getInstance().currentUser?.uid
-        firestore = FirebaseFirestore.getInstance()
-
-        firestore.collection("post")
-            .whereEqualTo("uid", uid)
-            .get()
-            .addOnSuccessListener { documents ->
-                val contents = documents.toObjects(ContentDTO::class.java)
-                imageAdapter.setData(contents)
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error getting documents: ", e)
-            }
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful && task.result!!.documents.isNotEmpty()) {
-                    for (document in task.result!!.documents) {
-                        val content = document.toObject(ContentDTO::class.java)
-                        content?.let { it.postId = document.id }
+        // 현재 사용자 uid 가져오기
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            // Firestore에서 "post" 컬렉션에서 uid 필드가 현재 사용자의 uid와 일치하는 문서를 쿼리하고, 그 결과를 RecyclerView 어댑터에 설정
+            FirebaseFirestore.getInstance().collection("post")
+                .whereEqualTo("uid", uid)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val contents = documents.toObjects(ContentDTO::class.java)
+                    contents.forEach { contentDTO ->
+                        contentDTO.postId = documents.documents.firstOrNull { it["imageUrl"] == contentDTO.imageUrl }?.id
                     }
-                    imageAdapter.setData(task.result!!.toObjects(ContentDTO::class.java))
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.exception)
+                    imageAdapter.setData(contents)
                 }
-            }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting documents: ", e)
+                }
+        }
 
 
         return view

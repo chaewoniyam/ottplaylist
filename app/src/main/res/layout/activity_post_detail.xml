@@ -95,4 +95,47 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="530dp" />
 
+    <TextView
+        android:id="@+id/tv_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/iv_account_comment"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account_explain" />
+
+    <TextView
+        android:id="@+id/tv_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/tv_tag3"
+        app:layout_constraintStart_toEndOf="@+id/tv_tag1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account_explain" />
+
+    <TextView
+        android:id="@+id/tv_tag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account_explain" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_account_movie"
+        android:layout_width="422dp"
+        android:layout_height="271dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_account_heart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
