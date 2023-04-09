@@ -1,3 +1,5 @@
 package com.example.testapp
 
-class MovieProfiles(val posterImageUrl: String?, val movieName: String?, val movieGenreAndYear: String?, val toInfoUrl: String?)
+class MovieProfiles(val posterImageUrl: String? = null, val movieName: String? = null, val movieGenreAndYear: String? = null, val toInfoUrl: String? = null) {
+    constructor() : this(null, null, null, null)
+}

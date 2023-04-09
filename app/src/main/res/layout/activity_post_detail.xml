@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_account_profile_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="53dp"
+        android:layout_height="65dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_account"
@@ -38,16 +38,16 @@
 
     <ImageView
         android:id="@+id/iv_account_image"
-        android:layout_width="382dp"
-        android:layout_height="295dp"
+        android:layout_width="384dp"
+        android:layout_height="181dp"
         android:layout_marginStart="11dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="11dp"
         android:src="@drawable/baseline_add_photo_alternate_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_account_profile_img" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_account_explain"
@@ -86,14 +86,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="483dp" />
+        app:layout_constraintGuide_begin="330dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="530dp" />
+        app:layout_constraintGuide_begin="385dp" />
 
     <TextView
         android:id="@+id/tv_tag1"
@@ -114,6 +114,7 @@
         android:layout_marginEnd="20dp"
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/tv_tag3"
+        app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toEndOf="@+id/tv_tag1"
         app:layout_constraintTop_toBottomOf="@+id/tv_account_explain" />
 
@@ -129,12 +130,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_account_movie"
-        android:layout_width="422dp"
-        android:layout_height="271dp"
+        android:layout_width="414dp"
+        android:layout_height="462dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_account_heart" />
 
