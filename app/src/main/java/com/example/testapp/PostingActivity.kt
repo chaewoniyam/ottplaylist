@@ -83,7 +83,8 @@ class PostingActivity : AppCompatActivity() {
                                 tag1 = tag1Et.text.toString(),
                                 tag2 = tag2Et.text.toString(),
                                 tag3 = tag3Et.text.toString(),
-                                imageUrl = imageUrl
+                                imageUrl = imageUrl,
+                                postId = UUID.randomUUID().toString(),
                             )
 
 

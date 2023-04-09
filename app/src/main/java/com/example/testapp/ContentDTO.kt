@@ -12,6 +12,7 @@ data class ContentDTO(var uid : String? = "",
                       var tag3:String? = "",
                       var imageUrl:String? = "",
                       var date: Date =Date(),
+                      var postId: String? ="",
                       var favoriteCount: Int = 0,
                       var favorites: MutableMap<String, Boolean> = HashMap()){
 

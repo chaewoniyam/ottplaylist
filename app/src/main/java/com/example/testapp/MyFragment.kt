@@ -1,7 +1,10 @@
 package com.example.testapp
 
+
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +49,21 @@ class MyFragment : Fragment() {
                 val contents = documents.toObjects(ContentDTO::class.java)
                 imageAdapter.setData(contents)
             }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error getting documents: ", e)
+            }
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful && task.result!!.documents.isNotEmpty()) {
+                    for (document in task.result!!.documents) {
+                        val content = document.toObject(ContentDTO::class.java)
+                        content?.let { it.postId = document.id }
+                    }
+                    imageAdapter.setData(task.result!!.toObjects(ContentDTO::class.java))
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.exception)
+                }
+            }
+
 
         return view
     }
@@ -64,7 +82,14 @@ class MyFragment : Fragment() {
             Glide.with(holder.itemView.context)
                 .load(content.imageUrl)
                 .into(holder.imageView)
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(holder.itemView.context, PostDetailActivity::class.java)
+                intent.putExtra("postId", content.postId)
+                holder.itemView.context.startActivity(intent)
+            }
         }
+
 
         override fun getItemCount(): Int {
             return contents.size
