@@ -77,7 +77,6 @@ class MoreMovieProfileListActivity : AppCompatActivity() {
             }
 
 
-
             // RecyclerView 설정
             val adapter = MoreMovieProfileListActivityAdapter(ArrayList(movieList))
             recyclerView.layoutManager = LinearLayoutManager(this@MoreMovieProfileListActivity)

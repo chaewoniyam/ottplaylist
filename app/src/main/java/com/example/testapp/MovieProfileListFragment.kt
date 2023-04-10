@@ -2,6 +2,7 @@ package com.example.testapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import android.webkit.WebViewClient
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.testapp.InfoActivity.Companion.TAG
+import com.google.firebase.firestore.FirebaseFirestore
 import org.jsoup.Jsoup
 
 class MovieProfileListFragment : Fragment() {
@@ -20,6 +23,11 @@ class MovieProfileListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var movieList: MutableList<MovieProfiles>
     private var isHtmlReceived = false
+    private var searchString: String? = null
+
+    // 새로운 RecyclerView를 생성할 변수
+    private lateinit var playlistTitleRecyclerView: RecyclerView
+    private lateinit var playlistTitleList: MutableList<String>
 
 
     override fun onCreateView(
@@ -32,6 +40,8 @@ class MovieProfileListFragment : Fragment() {
         webView = view.findViewById<WebView>(R.id.wv_movie_list)
         recyclerView = view.findViewById<RecyclerView>(R.id.rv_movie_list)
 
+        playlistTitleRecyclerView = view.findViewById<RecyclerView>(R.id.rv_playlist_title)
+
 
         return view
     }
@@ -40,6 +50,7 @@ class MovieProfileListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         movieList = mutableListOf()
+        playlistTitleList = mutableListOf()
 
         // WebView 설정
         webView.settings.javaScriptEnabled = true
@@ -56,7 +67,7 @@ class MovieProfileListFragment : Fragment() {
             }
         }
 
-        val searchString = arguments?.getString("searchString")
+        searchString = arguments?.getString("searchString")
         val url = "https://m.kinolights.com/search/movies?keyword=$searchString"
 
         // WebView에서 URL 로딩
@@ -87,8 +98,6 @@ class MovieProfileListFragment : Fragment() {
                 }
             }
 
-
-
             // 영화 정보 리스트에 추가
             for (i in 0 until 3) {
                 movieList.add(
@@ -101,12 +110,40 @@ class MovieProfileListFragment : Fragment() {
                 )
             }
 
-            // RecyclerView 설정
-            val adapter = MovieProfileAdapter(ArrayList(movieList))
-            recyclerView.layoutManager = LinearLayoutManager(activity)
-            recyclerView.adapter = adapter
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("post")
+
+            if (searchString != null) {
+                postsRef.whereEqualTo("isPublished", true)
+                    .whereArrayContains("title", searchString!!)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        val filteredMovieList = mutableListOf<ContentDTO>()
+                        for (document in documents) {
+                            val contentDTO = ContentDTO(
+                                userId = document.getString("userId"),
+                                title = document.getString("title") ?: "",
+                                imageUrl = document.getString("imageUrl"),
+                                postId = document.getString("postId"),
+                            )
+                            filteredMovieList.add(contentDTO)
+                        }
+
+                        // RecyclerView 설정
+                        val adapter = MovieProfileAdapter(ArrayList(movieList))
+                        recyclerView.layoutManager = LinearLayoutManager(activity)
+                        recyclerView.adapter = adapter
+
+                        // 새로운 RecyclerView에 대한 설정
+                        val playlistTitleAdapter =
+                            SearchPlaylistTitleAdapter(ArrayList(filteredMovieList))
+                        playlistTitleRecyclerView.layoutManager = LinearLayoutManager(activity)
+                        playlistTitleRecyclerView.adapter = playlistTitleAdapter
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w(TAG, "Error getting documents: ", exception)
+                    }
+            }
         }
     }
 }
-
-
