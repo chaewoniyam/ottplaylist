@@ -1,5 +1,6 @@
 package com.example.testapp
 
+import android.content.Intent
 import android.os.Bundle
 
 import android.util.Log
@@ -71,6 +72,11 @@ class PostDetailActivity : AppCompatActivity() {
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting document: ", e)
                 }
+        }
+        val iv_account_comment = findViewById<ImageView>(R.id.iv_account_comment)
+        iv_account_comment.setOnClickListener{
+            val intent = Intent(this, CommentActivity::class.java)
+            startActivity(intent)
         }
     }
 }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.jsoup.Jsoup
 
-class MovieInfoActivity : AppCompatActivity() {
+class OttInfoActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var recyclerView: RecyclerView
     private lateinit var ottList: MutableList<OttInfo>
@@ -73,10 +73,10 @@ class MovieInfoActivity : AppCompatActivity() {
             // HTML 파싱
             val doc = Jsoup.parse(html)
 
-            val ottName = doc.select(".provider-info").eachText()
+            val ottName = doc.select(".theater-name").eachText()
 
             // 스트리밍 VOD 링크 가져오기
-            val streamingVodList = doc.select("a#streamingVodList").eachAttr("href")
+           // val streamingVodList = doc.select("a.movie-current-released").eachAttr("href")
 
             // OttInfo 객체에 이미지 URL 추가하기
            // val ottPlatformImgList = doc.select(".provider-info img").eachAttr("src")
@@ -86,7 +86,7 @@ class MovieInfoActivity : AppCompatActivity() {
                 ottList.add(
                     OttInfo(
                         ottName[i],
-                        streamingVodList[i]
+                        //streamingVodList[i]
                         //ottPlatformImgList[i] // 이미지 URL 추가
                     )
                 )
@@ -97,17 +97,19 @@ class MovieInfoActivity : AppCompatActivity() {
                 val backImg = findViewById<ImageView>(R.id.iv_backgroud)
                 val imgUrl = doc.select("div.backdrop img[src]").attr("src")
 
-                Glide.with(this@MovieInfoActivity)
+                Glide.with(this@OttInfoActivity)
                     .load(imgUrl)
                     .into(backImg)
 
-                val posterImg = this@MovieInfoActivity.findViewById<ImageView>(R.id.iv_info_poster)
+                val posterImg = this@OttInfoActivity.findViewById<ImageView>(R.id.iv_info_poster)
                 val posterUrl = doc.select("div.poster img[src]")?.firstOrNull()?.attr("data-src")
                     ?: doc.select("div.poster img[src]")?.firstOrNull()?.attr("src")
 
-                Glide.with(this@MovieInfoActivity)
+                Glide.with(this@OttInfoActivity)
                     .load(posterUrl)
                     .into(posterImg)
+
+
 
             }
 
@@ -127,7 +129,7 @@ class MovieInfoActivity : AppCompatActivity() {
 
             // RecyclerView 설정
             val adapter = OttInfoAdapter(ArrayList(ottList))
-            recyclerView.layoutManager = LinearLayoutManager(this@MovieInfoActivity)
+            recyclerView.layoutManager = LinearLayoutManager(this@OttInfoActivity)
             recyclerView.adapter = adapter
         }
     }

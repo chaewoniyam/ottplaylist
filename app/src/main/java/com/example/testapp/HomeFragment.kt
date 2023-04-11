@@ -85,8 +85,8 @@ class HomeFragment : Fragment() {
                 "Likes " + contentDTOs!![position].favoriteCount
 
             //ProfileImage
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl)
-                .into(viewholder.iv_profile_image)
+//            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl)
+//                .into(viewholder.iv_profile_image)
 
             //This code is when the button is clicked
             viewholder.iv_favorite_post.setOnClickListener{

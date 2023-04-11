@@ -39,27 +39,27 @@ class OttInfoAdapter (val ottPlatformList: ArrayList<OttInfo>) : RecyclerView.Ad
 //            .into(holder.ottPlatformImg)
 
 
-        holder.streamingVodList.text = ottInfo.streamingVodList
-
-        holder.itemView.setOnClickListener {
-            val url = ottInfo.streamingVodList
-            val intent = if (url.startsWith("http://") || url.startsWith("https://")) {
-                Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            } else {
-                Intent(Intent.ACTION_VIEW, Uri.parse("https://$url"))
-            }
-            val requestCode = 1 // 원하는 코드로 변경 가능
-
-            // startActivityForResult로 액티비티 시작
-            (holder.itemView.context as Activity).startActivityForResult(intent, requestCode)
-        }
+//        holder.streamingVodList.text = ottInfo.streamingVodList
+//
+//        holder.itemView.setOnClickListener {
+//            val url = ottInfo.streamingVodList
+//            val intent = if (url.startsWith("http://") || url.startsWith("https://")) {
+//                Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//            } else {
+//                Intent(Intent.ACTION_VIEW, Uri.parse("https://$url"))
+//            }
+//            val requestCode = 1 // 원하는 코드로 변경 가능
+//
+//            // startActivityForResult로 액티비티 시작
+//            (holder.itemView.context as Activity).startActivityForResult(intent, requestCode)
+//        }
     }
 
 
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ottName = itemView.findViewById<TextView>(R.id.tv_ott_name)
-        val streamingVodList = itemView.findViewById<TextView>(R.id.tv_ott_url)
+        //val streamingVodList = itemView.findViewById<TextView>(R.id.tv_ott_url)
        // val ottPlatformImg = itemView.findViewById<ImageView>(R.id.iv_ott_img)
     }
 }

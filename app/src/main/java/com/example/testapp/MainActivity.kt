@@ -36,9 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         FirebaseApp.initializeApp(this) //Firebase 초기화
 
-
-        FirebaseApp.initializeApp(this)
-
         auth = Firebase.auth
 
         // 로그인 성공한 회원은 메인 액티비티로

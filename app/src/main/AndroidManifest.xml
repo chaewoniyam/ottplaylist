@@ -40,7 +40,7 @@
             android:name=".MoreMovieProfileListActivity"
             android:exported="false" />
         <activity
-            android:name=".MovieInfoActivity"
+            android:name=".OttInfoActivity"
             android:exported="false" />
         <activity
             android:name=".PasswordResetActivity"

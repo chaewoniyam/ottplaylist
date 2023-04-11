@@ -26,7 +26,6 @@ class MyFragment : Fragment() {
     private lateinit var imageAdapter: ImageAdapter
     var currentUserUid: String? = null
 
-
     companion object {
         var PICK_PROFILE_FROM_ALBUM = 10
     }
@@ -43,20 +42,18 @@ class MyFragment : Fragment() {
         }
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_accont_movie_list)
-        val imageAdapter = ImageAdapter()
+        this.imageAdapter = ImageAdapter()
 
-        currentUserUid = auth?.currentUser?.uid
-
-        println(currentUserUid+"이거는 사진들임 ")
         recyclerView.adapter = imageAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
         // 현재 사용자 uid 가져오기
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
+        auth = FirebaseAuth.getInstance()
+        currentUserUid = auth?.currentUser?.uid
+        if (currentUserUid != null) {
             // Firestore에서 "post" 컬렉션에서 uid 필드가 현재 사용자의 uid와 일치하는 문서를 쿼리하고, 그 결과를 RecyclerView 어댑터에 설정
             FirebaseFirestore.getInstance().collection("post")
-                .whereEqualTo("uid", uid)
+                .whereEqualTo("uid", currentUserUid)
                 .get()
                 .addOnSuccessListener { documents ->
                     val contents = documents.toObjects(ContentDTO::class.java)
@@ -71,9 +68,7 @@ class MyFragment : Fragment() {
                 }
         }
 
-
         val profileimage = view.findViewById<ImageView>(R.id.account_iv_profile)
-
 
         profileimage?.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -82,25 +77,32 @@ class MyFragment : Fragment() {
 
         }
 
+        // firestore 변수 초기화
+        firestore = FirebaseFirestore.getInstance()
+
         getProfileImage()
 
         return view
     }
 
     fun getProfileImage() {
-        firestore?.collection("profileImages")?.document(currentUserUid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
-                if (documentSnapshot.data != null) {
-                    var url = documentSnapshot?.data!!["image"]
-                    view?.let {
-                        Glide.with(it).load(url)
-                            .into(it.findViewById(R.id.account_iv_profile))
+        currentUserUid?.let { uid ->
+            firestore?.collection("profileImages")?.document(uid)
+                ?.get()
+                ?.addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.data != null) {
+                        val url = documentSnapshot.data!!["image"] as String
+                        view?.let {
+                            Glide.with(it).load(url)
+                                .into(it.findViewById(R.id.account_iv_profile))
+                        }
                     }
                 }
-            }
+                ?.addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting profile image: ", e)
+                }
+        }
     }
-
 
 
     class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
@@ -124,7 +126,6 @@ class MyFragment : Fragment() {
                 holder.itemView.context.startActivity(intent)
             }
         }
-
         override fun getItemCount(): Int {
             return contents.size
         }

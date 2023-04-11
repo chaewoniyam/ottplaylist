@@ -19,7 +19,7 @@ class makeplalistrecycleradapter(val MovieProfileList: ArrayList<MovieProfiles>)
                 val curPos: Int = adapterPosition
                 val profile: MovieProfiles = MovieProfileList.get(curPos)
                 val url = "https://m.kinolights.com${profile.toInfoUrl}"
-                val intent = Intent(itemView.context, MovieInfoActivity::class.java)
+                val intent = Intent(itemView.context, OttInfoActivity::class.java)
                 intent.putExtra("url", url)
                 itemView.context.startActivity(intent)
             }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -20,7 +19,7 @@ class MovieProfileAdapter(val MovieProfileList: ArrayList<MovieProfiles>) : Recy
                 val curPos: Int = adapterPosition
                 val profile: MovieProfiles = MovieProfileList.get(curPos)
                 val url = "https://m.kinolights.com${profile.toInfoUrl}"
-                val intent = Intent(itemView.context, MovieInfoActivity::class.java)
+                val intent = Intent(itemView.context, OttInfoActivity::class.java)
                 intent.putExtra("url", url)
                 itemView.context.startActivity(intent)
             }
