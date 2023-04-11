@@ -8,6 +8,7 @@
         tools:context=".LoginActivity">
 
 
+
         <EditText
             android:id="@+id/emailArea"
             android:layout_width="300dp"
@@ -50,7 +51,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.141" />
+            app:layout_constraintVertical_bias="0.141"
+            android:fontFamily="@font/custom_fontfamily"/>
 
         <Button
 

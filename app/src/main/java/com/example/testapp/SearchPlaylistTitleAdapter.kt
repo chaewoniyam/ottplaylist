@@ -21,13 +21,14 @@ class SearchPlaylistTitleAdapter(val ContentDTOList: ArrayList<ContentDTO>) : Re
     }
 
     override fun onBindViewHolder(holder: SearchPlaylistTitleAdapter.CustomViewHolder, position: Int) { // onCreateViewHolder로 만들어진 view를 가져다가 실제 연결
-//        val movieProfile = ContentDTOList[position]
+        val playlistProfile = ContentDTOList[position]
+        holder.PlaylistMadeUser.text = ContentDTOList.get(position).userId
+        holder.PlaylistTitle.text = ContentDTOList.get(position).title
 //        Glide.with(holder.itemView.context)
-//            .load(movieProfile.posterImageUrl)
-//            .into(holder.moviePoster)
-//        holder.movieName.text = ContentDTOList.get(position).movieName // Int는 다르게 해야함 .toString()으로
-//        holder.movieGenreAndYear.text = ContentDTOList.get(position).movieGenreAndYear
-//        holder.toInfoUrl.text = ContentDTOList.get(position).toInfoUrl
+//            .load(playlistProfile.imageUrl)
+//            .into(holder.PlylistImage)
+        holder.PlaylistPostId.text = ContentDTOList.get(position).postId
+
 
     }
 
@@ -35,7 +36,7 @@ class SearchPlaylistTitleAdapter(val ContentDTOList: ArrayList<ContentDTO>) : Re
         val PlylistImage = itemView.findViewById<ImageView>(R.id.iv_poster) // 영화 포스터
         val PlaylistTitle = itemView.findViewById<TextView>(R.id.tv_movie_name) // 영화 제목
         val PlaylistMadeUser = itemView.findViewById<TextView>(R.id.tv_movie_genre_year) // 영화 장르와 년도
-        //val toInfoUrl = itemView.findViewById<TextView>(R.id.tv_to_info_url) // 영화 정보
+        val PlaylistPostId = itemView.findViewById<TextView>(R.id.tv_to_info_url) // 영화 정보
     }
 
 }

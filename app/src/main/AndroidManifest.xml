@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Testapp"
         tools:targetApi="31">
         <activity
+            android:name=".AlarmActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostDetailActivity"
             android:exported="false" />
         <activity

@@ -17,15 +17,23 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+@Suppress("DEPRECATION")
 class MyFragment : Fragment() {
     var fragmentView: View? = null
-    lateinit var firestore: FirebaseFirestore
+    var firestore: FirebaseFirestore? = null
     var uid: String? = null
     var auth: FirebaseAuth? = null
     private lateinit var imageAdapter: ImageAdapter
+    var currentUserUid: String? = null
+
+
+    companion object {
+        var PICK_PROFILE_FROM_ALBUM = 10
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_my, container, false)
 
         val go_to_make_playlist = view.findViewById<ImageButton>(R.id.go_to_make_playlist)
@@ -36,6 +44,10 @@ class MyFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rv_accont_movie_list)
         val imageAdapter = ImageAdapter()
+
+        currentUserUid = auth?.currentUser?.uid
+
+        println(currentUserUid+"이거는 사진들임 ")
         recyclerView.adapter = imageAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
@@ -49,7 +61,8 @@ class MyFragment : Fragment() {
                 .addOnSuccessListener { documents ->
                     val contents = documents.toObjects(ContentDTO::class.java)
                     contents.forEach { contentDTO ->
-                        contentDTO.postId = documents.documents.firstOrNull { it["imageUrl"] == contentDTO.imageUrl }?.id
+                        contentDTO.postId =
+                            documents.documents.firstOrNull { it["imageUrl"] == contentDTO.imageUrl }?.id
                     }
                     imageAdapter.setData(contents)
                 }
@@ -59,8 +72,36 @@ class MyFragment : Fragment() {
         }
 
 
+        val profileimage = view.findViewById<ImageView>(R.id.account_iv_profile)
+
+
+        profileimage?.setOnClickListener {
+            var photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/**"
+            activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
+
+        }
+
+        getProfileImage()
+
         return view
     }
+
+    fun getProfileImage() {
+        firestore?.collection("profileImages")?.document(currentUserUid!!)
+            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot.data != null) {
+                    var url = documentSnapshot?.data!!["image"]
+                    view?.let {
+                        Glide.with(it).load(url)
+                            .into(it.findViewById(R.id.account_iv_profile))
+                    }
+                }
+            }
+    }
+
+
 
     class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
         private val contents = mutableListOf<ContentDTO>()
@@ -83,7 +124,6 @@ class MyFragment : Fragment() {
                 holder.itemView.context.startActivity(intent)
             }
         }
-
 
         override fun getItemCount(): Int {
             return contents.size

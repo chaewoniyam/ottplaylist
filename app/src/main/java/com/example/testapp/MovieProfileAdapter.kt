@@ -1,5 +1,6 @@
 package com.example.testapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +15,19 @@ class MovieProfileAdapter(val MovieProfileList: ArrayList<MovieProfiles>) : Recy
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieProfileAdapter.CustomViewHolder { // onCreate랑 비슷 xml 연결
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_movie_list_skeleton, parent, false) // layout 끌고 와서 Adapter에 붙이기
-        return CustomViewHolder(view) // CustomViewHolder에 view 전달
+        return CustomViewHolder(view).apply {
+            itemView.setOnClickListener {
+                val curPos: Int = adapterPosition
+                val profile: MovieProfiles = MovieProfileList.get(curPos)
+                val url = "https://m.kinolights.com${profile.toInfoUrl}"
+                val intent = Intent(itemView.context, MovieInfoActivity::class.java)
+                intent.putExtra("url", url)
+                itemView.context.startActivity(intent)
+            }
+        }
     }
-
     override fun getItemCount(): Int {
-        return minOf(MovieProfileList.size,3) // MovieProfileList 총 길이를 리턴
+        return (MovieProfileList.size) // MovieProfileList 총 길이를 리턴
     }
 
     override fun onBindViewHolder(holder: MovieProfileAdapter.CustomViewHolder, position: Int) { // onCreateViewHolder로 만들어진 view를 가져다가 실제 연결

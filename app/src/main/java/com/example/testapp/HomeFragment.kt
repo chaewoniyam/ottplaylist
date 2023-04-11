@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,13 @@ class HomeFragment : Fragment() {
 
         rv_upload.adapter = DetailViewRecyclerViewAdapter()
         rv_upload.layoutManager = LinearLayoutManager(activity)
+
+        val heartImageButton = view.findViewById<ImageButton>(R.id.heartimage)
+
+        heartImageButton.setOnClickListener {
+            val intent = Intent(activity, AlarmActivity::class.java)
+            startActivity(intent)
+        }
         return view
     }
 
@@ -94,8 +102,11 @@ class HomeFragment : Fragment() {
                 val intent = Intent(v.context,CommentActivity::class.java)
                 intent.putExtra("contentUid",contentUidList[position])
                 startActivity(intent)
-
-
+            }
+            viewholder.iv_post_image.setOnClickListener {
+                val intent = Intent(activity, PostDetailActivity::class.java)
+                intent.putExtra("postId", contentUidList[position])
+                startActivity(intent)
             }
 
         }

@@ -113,37 +113,49 @@ class MovieProfileListFragment : Fragment() {
             val db = FirebaseFirestore.getInstance()
             val postsRef = db.collection("post")
 
+            println(searchString + "searchString 예쁘게 출력되니???")
+
             if (searchString != null) {
-                postsRef.whereEqualTo("isPublished", true)
-                    .whereArrayContains("title", searchString!!)
+                postsRef.whereArrayContains("title", searchString!!)
                     .get()
                     .addOnSuccessListener { documents ->
                         val filteredMovieList = mutableListOf<ContentDTO>()
                         for (document in documents) {
-                            val contentDTO = ContentDTO(
-                                userId = document.getString("userId"),
-                                title = document.getString("title") ?: "",
-                                imageUrl = document.getString("imageUrl"),
-                                postId = document.getString("postId"),
-                            )
+                            val postId = document.id
+                            val userId = document.getString("userId")
+                            val title = document.getString("title") ?: ""
+                            val imageUrl = document.getString("imageUrl")
+
+                            Log.e("검색결과", "userId: $userId, title: $title, postId: $postId, imageUrl: $imageUrl")
+
+                            val contentDTO = ContentDTO(userId = userId, title = title, imageUrl = imageUrl, postId = postId)
                             filteredMovieList.add(contentDTO)
                         }
+                        if (filteredMovieList.isEmpty()) {
+                            Log.e("검색결과", "검색 결과가 없습니다.")
+                        } else {
+                            val postIds = filteredMovieList.map { it.postId }
+                            Log.e("검색결과", "검색어 '$searchString'와 일치하는 post 아이디 목록: $postIds")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("검색결과", "검색 도중 오류 발생: ${exception.message}")
+                    }
+            }
 
-                        // RecyclerView 설정
+            // RecyclerView 설정
                         val adapter = MovieProfileAdapter(ArrayList(movieList))
                         recyclerView.layoutManager = LinearLayoutManager(activity)
                         recyclerView.adapter = adapter
 
                         // 새로운 RecyclerView에 대한 설정
-                        val playlistTitleAdapter =
-                            SearchPlaylistTitleAdapter(ArrayList(filteredMovieList))
-                        playlistTitleRecyclerView.layoutManager = LinearLayoutManager(activity)
-                        playlistTitleRecyclerView.adapter = playlistTitleAdapter
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.w(TAG, "Error getting documents: ", exception)
-                    }
+//                        val playlistTitleAdapter = SearchPlaylistTitleAdapter(ArrayList(filteredMovieList))
+//                        playlistTitleRecyclerView.layoutManager = LinearLayoutManager(activity)
+//                        playlistTitleRecyclerView.adapter = playlistTitleAdapter
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        Log.w(TAG, "Error getting documents: ", exception)
+//                    }
             }
         }
     }
-}

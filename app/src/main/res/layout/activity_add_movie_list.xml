@@ -7,15 +7,42 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/top_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ople"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/text_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text="영화 추가"
-        android:textSize="35dp" />
+        android:textStyle="normal"
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/input"
@@ -27,6 +54,7 @@
         android:cursorVisible="true"
         android:drawableRight="@drawable/baseline_search_24"
         android:hint="검색어를 입력하세요"
+        android:textStyle="normal"
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:minWidth="48dp"
@@ -35,8 +63,8 @@
         android:id="@+id/confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="350dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="355dp"
+        android:layout_marginTop="20dp"
         android:text="확인"
         android:src="@drawable/baseline_archive_24"
         android:padding="10dp"
@@ -71,6 +99,7 @@
             android:layout_marginStart="350dp"
             android:layout_marginTop="70dp"
             android:contentDescription="검색"
+            android:textStyle="bold"
             android:padding="10dp"
             android:text="검색" />
     </FrameLayout>
